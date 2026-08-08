@@ -1,5 +1,7 @@
 # DeltaLog
 
+[![CI](https://github.com/alzhanovmaksat/deltalog/actions/workflows/ci.yml/badge.svg)](https://github.com/alzhanovmaksat/deltalog/actions/workflows/ci.yml)
+
 Watches your vendors' subprocessor lists, DPAs, and trust pages every day — and keeps
 the timestamped, hash-chained evidence log an auditor asks for.
 
