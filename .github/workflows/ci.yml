@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A second push to a PR makes the first run irrelevant; don't pay for it.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22.x is the floor that runs TypeScript without a flag (type stripping became
+        # default in 22.18); 24.x is what the code is developed against. Testing both
+        # catches a change that quietly relies on newer runtime behaviour.
+        node: ['22.x', '24.x']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # Deliberately no install step. The project has no dependencies and no lockfile,
+      # so `npm ci` would fail and `npm install` would be a no-op that only invents a
+      # way for CI to break.
+      - name: Run tests
+        run: npm test
+
+  no-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Zero dependencies is a design property, not an accident: it is what lets the
+      # tests run with no build step and the Worker deploy without a bundler. A PR that
+      # adds one should have to argue for it, not slip it in.
+      - name: Assert no dependencies were added
+        run: |
+          node -e '
+            const pkg = require("./package.json");
+            const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+            const names = Object.keys(deps);
+            if (names.length) {
+              console.error("This project is dependency-free by design. Added: " + names.join(", "));
+              process.exit(1);
+            }
+            console.log("No dependencies. Still true.");
+          '

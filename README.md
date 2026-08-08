@@ -49,7 +49,8 @@ runner.
 npm test
 ```
 
-173 tests, ~1 second. Node 22.6+ (type stripping).
+173 tests, ~1 second. Node 22.18+ (the version where TypeScript type stripping stopped
+needing a flag). CI runs the suite on 22.x and 24.x.
 
 ## Layout
 
@@ -144,7 +145,6 @@ product into a job.
 ## Not built
 
 - Validation with real buyers (the actual next step)
-- CI
 - JS-rendered page support beyond a plain fetch
 - SSO, questionnaire automation, AI risk scoring — deliberately out of scope; each one
   converts a passive product into a job
