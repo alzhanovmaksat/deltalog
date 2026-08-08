@@ -144,11 +144,14 @@ product into a job.
 ## Not built
 
 - Validation with real buyers (the actual next step)
-- A LICENSE file — add one before publishing anything you care about
 - CI
 - JS-rendered page support beyond a plain fetch
 - SSO, questionnaire automation, AI risk scoring — deliberately out of scope; each one
   converts a passive product into a job
+
+## License
+
+MIT — see [LICENSE](LICENSE).
 
 ## Reading order
 
