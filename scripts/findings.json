@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generatedAt": "2026-08-08T22:30:38.789Z",
+    "generatedAt": "2026-08-08T22:44:19.162Z",
     "source": "12 months of Internet Archive captures, verified through the DeltaLog materiality engine",
-    "vendorYears": 18.9,
-    "ratePerVendorYear": 2.17,
-    "note": "Entity-level events only. One jurisdiction-reorder false positive was removed after the set-comparison fix; regenerate with scripts/backtest-changes.ts to refresh."
+    "vendorYears": 16.8,
+    "ratePerVendorYear": 2.38,
+    "note": "Entity-level events only. Two runs of the same method gave 2.17 and 2.38 changes/vendor/year; the denominator moves with Internet Archive coverage, which varies run to run. Treat the rate as ~2.2-2.4, not a point estimate."
   },
   "findings": {
     "google-cloud": [
@@ -100,7 +100,7 @@
       {
         "from": "20260605",
         "to": "20260801",
-        "summary": "Added 1 subprocessor: Cerebras Systems Inc. Jurisdiction changed: Fireworks AI (United States, Iceland, Germany → United States, Germany, Iceland), Microsoft (Azure) (United States, Canada → United States, Canada, Chile, Mexico) and 1 more"
+        "summary": "Added 1 subprocessor: Cerebras Systems Inc. Jurisdiction changed: Microsoft (Azure) (United States, Canada → United States, Canada, Chile, Mexico)"
       }
     ],
     "pagerduty": [
@@ -239,13 +239,6 @@
         "from": "20250909",
         "to": "20260109",
         "summary": "Added 4 subprocessors: OpenAI, L.L.C., Databricks Arabia Ltd, Databricks Denmark Lps and 1 more"
-      }
-    ],
-    "mixpanel": [
-      {
-        "from": "20260119",
-        "to": "20260413",
-        "summary": "Added 6 subprocessors: Anthropic, Inc., HubSpot, Inc., Langfuse GmbH and 3 more. Jurisdiction changed: Mixpanel International, Inc. (United Kingdom Spain Singapore India → United Kingdom Spain Singapore India Israel), Snowflake Inc. (Location of Customer’s Snowflake instance, as indicated by Customer → Location of Customer's Snowflake instance, as indicated by Customer)"
       }
     ]
   }

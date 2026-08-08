@@ -17,19 +17,29 @@ against history: 12 months of Internet Archive captures for each of the 31 resol
 vendors, with consecutive pairs fed through the production materiality engine
 (`scripts/backtest-changes.ts`). Same code path that would send a customer an alert.
 
-### Result: 2.17 actionable changes per vendor per year
+### Result: roughly 2.2–2.4 actionable changes per vendor per year
 
-| | |
-|---|---|
-| Vendors with usable Archive history | 26 of 31 |
-| Observed vendor-years | 18.9 |
-| **Entity-level events** (named, actionable) | **41 → 2.17 / vendor / year** |
-| Clause-path events | 0 |
-| Text-only events (vague; digest, never a page) | 8 |
+Two runs of the same method, after the engine fixes:
 
-This clears the `> 2` band in the table below, which was written down before the data
-came in: **alerting leads the pitch.** A 25-vendor Team customer sees roughly four to
-five actionable alerts a month.
+| | Run A | Run B |
+|---|---|---|
+| Vendors with usable Archive history | 26 of 31 | 23 of 31 |
+| Observed vendor-years | 18.9 | 16.8 |
+| Entity-level events (named, actionable) | 41 | 40 |
+| Clause-path events | 0 | 0 |
+| Text-only events (digest, never a page) | 8 | 8 |
+| **Changes / vendor / year** | **2.17** | **2.38** |
+
+**Report the range, not a point estimate.** The numerator is stable — 41 and 40 real
+events — but the denominator moves, because the Internet Archive had usable captures for
+26 vendors in one run and 23 in the next. Eight vendors that had history in run A had
+none in run B. That is Archive coverage varying, not vendor behaviour changing, and it
+is a limit of the method rather than a finding.
+
+Both runs clear the `> 2` band in the table below, which was written down before any
+data came in: **alerting leads the pitch.** A 25-vendor Team customer sees roughly four
+to five actionable alerts a month. The conclusion does not depend on which run you use,
+which is the only reason the range is good enough to act on.
 
 Only **entity-level** events count toward the headline. Those are named facts — *"added
 Snowflake Inc. (data warehousing, US)"* — that a reviewer can act on in forty seconds.
@@ -54,6 +64,13 @@ underlying page had only changed 3 times, and Sentry's not at all. The old path 
 inventing changes, not merely mislabelling them.
 
 **2.96 should not be quoted.** It was 41 real events plus 15 that never happened.
+
+A third defect surfaced later, from running the generator on real prospects: GitHub
+regenerated its page listing the same three countries in a new order, and the differ
+reported it as a jurisdiction move. Jurisdiction comparison is now set-based. All three
+defects shared a shape — the engine treating a vendor's cosmetic page regeneration as a
+semantic change — and all three over-reported, which is the survivable direction for an
+alerting product but not for an audit record.
 
 ### The distribution matters more than the mean
 
@@ -315,9 +332,8 @@ vendors publish a monitorable page. Half of any vendor list resists monitoring, 
 constrains what can honestly be promised.
 
 **Established as of the backtest:** vendor pages change often enough to alert on —
-**2.17 actionable changes per vendor per year**, measured through the corrected engine
-across 18.9 vendor-years, and heavily concentrated in a handful of fast-moving vendors.
-The signal is real.
+**~2.2–2.4 actionable changes per vendor per year** across two runs of the corrected
+engine, heavily concentrated in a handful of fast-moving vendors. The signal is real.
 
 **Not established:** that anyone will pay for it. Step 3 has not been run. Everything in
 this repository is a well-built answer to a question that has not been asked of a single
