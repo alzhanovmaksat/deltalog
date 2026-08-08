@@ -1,0 +1,11 @@
+node_modules/
+.wrangler/
+.dev.vars
+.DS_Store
+
+# Script output. seed-directory.sql IS committed — it is the artifact applied to D1 and
+# a record of current coverage. These two are raw intermediates that churn on every
+# crawl; the durable record of what was discovered is MANUAL_URLS in src/directory.ts.
+scripts/seed-directory.report.json
+scripts/discovered-urls.json
+scripts/new-urls.json

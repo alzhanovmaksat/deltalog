@@ -1,0 +1,43 @@
+name = "deltalog"
+main = "src/worker.ts"
+compatibility_date = "2026-01-01"
+
+# Every 15 minutes. Watches carry their own interval (daily on Team, 6-hourly on
+# Compliance); this tick just sweeps whatever has come due, so the cron frequency
+# never has to change when a plan does.
+[triggers]
+crons = ["*/15 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "deltalog"
+database_id = "REPLACE_ME"
+
+# Raw page bodies for the evidence export. D1 holds the structure and the hash chain;
+# R2 holds the bytes an auditor might want to see.
+[[r2_buckets]]
+binding = "SNAPSHOTS"
+bucket_name = "deltalog-snapshots"
+
+[vars]
+APP_BASE_URL = "https://app.deltalog.io"
+ALERT_FROM_ADDRESS = "DeltaLog <alerts@deltalog.io>"
+
+# Price ids are public identifiers, so they live here. The plan/cadence the browser
+# submits is mapped against these server-side — a price id is never accepted from a form.
+STRIPE_PRICE_TEAM_MONTHLY = "price_REPLACE_ME"
+STRIPE_PRICE_TEAM_ANNUAL = "price_REPLACE_ME"
+STRIPE_PRICE_COMPLIANCE_MONTHLY = "price_REPLACE_ME"
+STRIPE_PRICE_COMPLIANCE_ANNUAL = "price_REPLACE_ME"
+
+# Secrets, never vars:
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put SESSION_SECRET
+#   wrangler secret put STRIPE_SECRET_KEY
+#   wrangler secret put STRIPE_WEBHOOK_SECRET
+#
+# Point the Stripe webhook endpoint at https://<host>/stripe/webhook and subscribe to
+# checkout.session.completed and customer.subscription.*
+
+[observability]
+enabled = true
