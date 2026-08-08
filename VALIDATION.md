@@ -122,23 +122,80 @@ Below is everything else needed.
 
 ### Who to contact
 
-Fifty people matching **all** of:
+Fifty people, in three tiers, contacted in this order. The order matters — the first
+ten teach you how to talk about it before you spend the other forty.
 
-- Company of **30–300 employees** (small enough to lack a GRC team, large enough to have
-  a compliance obligation)
-- **B2B SaaS**, so a SOC 2 report is table stakes for their own sales
-- Title: Head of Security, Security Engineer, Head of IT/Ops, or CTO at companies with
-  no security hire
-- Public evidence they care: a trust page, a listed SOC 2, a security page
+#### Tier 1 — Fractional CISOs and compliance consultants (aim for 10, contact first)
 
-**Where to find them without buying a list:** companies that recently published a trust
-center; SOC 2 announcement posts on LinkedIn; the r/SecurityCareers and
-/r/grc communities; local ISSA or CISO-circle Slack groups; and — the highest-signal
-source — the customer logos of Vanta and Drata, who are exactly your market.
+Each carries 8–30 client companies. One yes is worth ten of any other kind, and they
+will tell you in one reply whether this is a real problem, because they hit it across a
+dozen clients rather than one.
 
-**Also worth 10 of the 50: fractional CISOs and compliance consultants.** They carry
-8–30 clients each. One yes is worth ten of the others, and they are the channel the
-business plan actually rests on.
+**Where they are:** LinkedIn title search for "fractional CISO", "virtual CISO", "vCISO";
+the partner directories of Vanta, Drata, and Secureframe (consultants list themselves
+there to get referrals); guest lists of GRC and security podcasts; ISACA and ISSA local
+chapter events.
+
+**Why they reply:** your tool makes their service delivery cheaper. They are not buying
+software, they are buying back billable hours.
+
+#### Tier 2 — Security or ops leads at 30–300 person B2B SaaS (aim for 30)
+
+Find the *company* first, then the person. Company-level signals are public and fast to
+filter; that is where the leverage is.
+
+**Companies that have just proved they care:**
+
+- **Trust-center directories.** SafeBase, Conveyor, and Vanta Trust Center publish
+  indexes of companies with live trust pages. A company that stood one up this year has
+  a compliance owner and a budget.
+- **SOC 2 announcement posts on LinkedIn.** Companies announce Type II certification.
+  Anyone posting that in the last six months just went through the vendor-review pain.
+- **The subprocessor pages themselves.** Every company that publishes one is a company
+  that takes this seriously — including the 31 in this repo's own directory, and every
+  vendor named *inside* those lists.
+- **Vanta and Drata customer logos and case studies.** Exactly your market, already
+  spending on compliance tooling, and already discovering what those tools do not cover.
+
+**Then find the person:** the company's `/security` or `/trust` page usually names a
+contact; otherwise search the company on LinkedIn for Head of Security, Security
+Engineer, Head of IT/Ops, or — at companies with no security hire — the CTO.
+
+**Reject fast** if: no public trust page or subprocessor list (they do not feel this
+yet), fewer than 30 employees (no obligation), or more than ~300 (they have a GRC team
+and a procurement process, and you do not want that customer yet).
+
+#### Tier 3 — Communities (aim for 10, and post rather than DM)
+
+`r/grc`, `r/cybersecurity`, ISC2 and ISACA chapter Slacks, and Cloud Security Forum.
+
+In these places **post the finding, do not message individuals.** "Google Cloud added 7
+subprocessors in Q1 and I only noticed because I was tracking it — does anyone actually
+monitor this?" is a genuine question that surfaces the people who care, and it inverts
+the dynamic: they contact you. It is also the only channel here with no privacy
+question at all.
+
+### Before you send anything: the legal part
+
+You are selling a compliance product. Breaking email law in the first message is the
+single worst first impression available, and your buyers are exactly the people who
+will notice.
+
+- **GDPR (EU/UK recipients).** B2B cold email can rest on legitimate interest, but you
+  must be able to justify the relevance, identify yourself, link a privacy notice, and
+  honour opt-outs immediately. Some member states (Germany, Italy) are stricter — when
+  in doubt, skip the recipient rather than argue the point.
+- **CAN-SPAM (US).** Identify yourself honestly, include a physical postal address, and
+  honour opt-outs within 10 days.
+- **Practically:** send from your own domain, one email per person, genuinely
+  personalised, no automated sequence, no tracking pixels, and stop the moment anyone
+  says stop. All of that also happens to be what makes the email work.
+
+### Budget the time honestly
+
+Fifty genuinely personalised emails is **4–6 hours**, because each needs real findings
+about that recipient's own vendors. Ten a day for a week. Anything faster is a mail
+merge, and a mail merge will not answer the question you are asking.
 
 ### The email
 
