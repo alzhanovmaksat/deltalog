@@ -63,9 +63,24 @@ const JURISDICTION_ALIASES: Record<string, string> = {
   'european union': 'eu', eea: 'eu', deutschland: 'de', germany: 'de', ireland: 'ie',
 };
 
+/**
+ * Jurisdiction cells are frequently a *list* — "United States, Germany, Iceland" — and
+ * vendors reorder them whenever the page is regenerated. Comparing the raw string
+ * reported GitHub as moving Fireworks AI between three countries that had not changed.
+ * Normalising as a set makes order irrelevant, which is what the compliance question
+ * actually cares about: which jurisdictions, not in what order.
+ */
 export function normalizeJurisdiction(raw?: string): string {
-  const s = (raw ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
-  return JURISDICTION_ALIASES[s] ?? s.replace(/\./g, '');
+  const one = (part: string) => {
+    const s = part.toLowerCase().replace(/\s+/g, ' ').trim();
+    return JURISDICTION_ALIASES[s] ?? s.replace(/\./g, '');
+  };
+  return (raw ?? '')
+    .split(/[,;/]|\band\b/)
+    .map(one)
+    .filter(Boolean)
+    .sort()
+    .join(', ');
 }
 
 export function normalizePurpose(raw?: string): string {

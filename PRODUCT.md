@@ -402,6 +402,21 @@ the wrong thing.
 - **Change frequency may be too low to feel valuable.** The mitigation is the monthly digest and
   the evidence framing: you're selling proof of continuous coverage, not a stream of news. Step 2
   of validation exists specifically to test this.
+- **Trust pages are migrating to client-rendered portals.** This is the most serious
+  risk on the list and it was not visible until real prospects were scanned. Of 12
+  ICP-sized companies checked, four published a subprocessor page that renders in the
+  browser — `trust.vanta.com`, Ramp, WorkOS, PostHog — and six published nothing
+  findable at all. Only two produced a machine-readable list. The industry is
+  consolidating onto hosted trust centers (SafeBase, Conveyor, Vanta Trust Center),
+  and every migration converts an addressable page into an unreadable one. Unlike
+  bot-blocking, this is a *trend*, and the sharpest form of it is that Vanta — whose
+  customers are precisely this product's market — is shrinking the addressable market
+  as it grows. Two honest responses: rendered fetching, which costs money and breaks
+  the zero-fixed-cost premise; or accepting that the product serves companies whose
+  vendors publish static pages, and saying so. Note the need does not disappear — a
+  client-rendered trust page cannot be diffed or archived by the *customer* either,
+  which is a real conversation to have with them.
+
 - **Bot-blocking gets worse over time.** Cloudflare-fronted vendor pages increasingly block
   automated fetches. This is the one thing that could turn maintenance from 10 min/week into a
   real job. Budget for a paid unblocking service (~$30/mo) as a contingency, and check the block

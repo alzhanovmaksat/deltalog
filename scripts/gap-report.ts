@@ -67,18 +67,59 @@ async function loadPage(input: string): Promise<{ url: string; html: string } | 
   return null;
 }
 
+/**
+ * Vendors a B2B SaaS company almost certainly uses, ordered by how much they actually
+ * moved. Used when the prospect publishes nothing we can read — which, on a scan of 12
+ * real ICP companies, was 10 of them.
+ *
+ * Weaker than a genuine per-company finding, but every claim is still verifiable, and
+ * "if you run on GCP, this is your DPA obligation" needs nothing from their website.
+ */
+const UNIVERSAL = ['google-cloud', 'github', 'datadog', 'stripe', 'cloudflare', 'figma'];
+
+function universalReport(reason: 'no-page' | 'unreadable', observedUrl?: string): void {
+  const picks = UNIVERSAL.filter((slug) => findings[slug]?.length)
+    .sort((a, b) => findings[b].length - findings[a].length)
+    .slice(0, 3);
+
+  console.log(`# Gap report — ${target}  (not personalised)\n`);
+
+  if (reason === 'unreadable') {
+    // This is itself a finding about them, and a better opener than the generic one.
+    console.log(`They publish a trust page at ${observedUrl} but it is rendered in the browser,`);
+    console.log('so its contents cannot be fetched, diffed, or archived — by us, by them, or by');
+    console.log('their auditor. Lead with that. It is a real observation about their program:\n');
+    console.log(`  "Your trust page at ${observedUrl} renders client-side. If you ever need to`);
+    console.log('   show an auditor what it said six months ago, there is no way to get that."\n');
+  } else {
+    console.log(`No public subprocessor list found for ${target}, so nothing here is specific`);
+    console.log('to them. Consider whether they are a prospect at all: companies that publish');
+    console.log('one are the ones already feeling this problem.\n');
+  }
+
+  console.log('## Fallback bullets — vendors nearly every B2B SaaS uses\n');
+  for (const slug of picks) {
+    const vendor = vendorBySlug(slug)!;
+    const events = findings[slug];
+    const highlight = events[events.length - 1];
+    console.log(`• **${vendor.name}** — ${events.length} changes in the last year.`);
+    console.log(`  Most recent (${pretty(highlight.to)}): ${highlight.summary}`);
+  }
+  console.log(`\nBase rate across our directory: ${meta.ratePerVendorYear} changes per vendor per year.`);
+  console.log('\n---\nOnly send this if you can name a vendor they plausibly use. A generic email');
+  console.log('about vendors they do not run is worse than no email.');
+}
+
 const page = await loadPage(target);
 if (!page) {
-  console.error(`Could not fetch a subprocessor page for ${target}.`);
-  console.error('Give the trust-page URL directly, or check whether they publish one at all.');
-  process.exit(1);
+  universalReport('no-page');
+  process.exit(0);
 }
 
 const disclosed = extractEntities(page.html);
 if (!disclosed.length) {
-  console.error(`Fetched ${page.url} but could not extract a vendor list from it.`);
-  console.error('Likely client-rendered. Try their DPA, or pick a different prospect.');
-  process.exit(1);
+  universalReport('unreadable', page.url);
+  process.exit(0);
 }
 
 // Reuse the same conservative matcher the product uses for pasted vendor lists, so a

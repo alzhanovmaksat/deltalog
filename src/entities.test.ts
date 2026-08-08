@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { extractEntities, normalizeEntityName } from './entities.ts';
+import { diffEntities, extractEntities, normalizeEntityName } from './entities.ts';
 
 const STANDARD_TABLE = `
 <h2>Our Subprocessors</h2>
@@ -146,4 +146,23 @@ test('entity identity survives suffix reformatting', () => {
   assert.equal(normalizeEntityName('Snowflake Inc.'), normalizeEntityName('Snowflake, Inc'));
   assert.equal(normalizeEntityName('Acme Company Ltd.'), 'acme');
   assert.notEqual(normalizeEntityName('Acme Data'), normalizeEntityName('Acme Cloud'));
+});
+
+test('a reordered jurisdiction list is not a jurisdiction change', () => {
+  // GitHub regenerated its page and listed the same three countries in a new order.
+  const before = [{ name: 'Fireworks AI', jurisdiction: 'United States, Iceland, Germany' }];
+  const after = [{ name: 'Fireworks AI', jurisdiction: 'United States, Germany, Iceland' }];
+  assert.deepEqual(diffEntities(before, after).moved, []);
+});
+
+test('adding a jurisdiction to the list still counts', () => {
+  const before = [{ name: 'Acme', jurisdiction: 'United States, Germany' }];
+  const after = [{ name: 'Acme', jurisdiction: 'United States, Germany, India' }];
+  assert.equal(diffEntities(before, after).moved.length, 1);
+});
+
+test('aliases still resolve inside a list', () => {
+  const before = [{ name: 'Acme', jurisdiction: 'USA, Germany' }];
+  const after = [{ name: 'Acme', jurisdiction: 'Germany, United States' }];
+  assert.deepEqual(diffEntities(before, after).moved, []);
 });

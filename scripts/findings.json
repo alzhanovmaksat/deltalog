@@ -3,7 +3,8 @@
     "generatedAt": "2026-08-08T22:30:38.789Z",
     "source": "12 months of Internet Archive captures, verified through the DeltaLog materiality engine",
     "vendorYears": 18.9,
-    "ratePerVendorYear": 2.17
+    "ratePerVendorYear": 2.17,
+    "note": "Entity-level events only. One jurisdiction-reorder false positive was removed after the set-comparison fix; regenerate with scripts/backtest-changes.ts to refresh."
   },
   "findings": {
     "google-cloud": [

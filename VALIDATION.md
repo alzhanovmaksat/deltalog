@@ -211,6 +211,36 @@ vendors nobody can monitor, which is usually the more interesting conversation.
 
 Six minutes a head becomes about thirty seconds.
 
+### What a scan of 12 real prospects showed
+
+Before writing any emails, the generator was run against 12 ICP-sized companies
+(PostHog, Supabase, WorkOS, Retool, Cal.com, Metabase, Vanta, Drata, Secureframe, Ramp,
+Deel, Mercury):
+
+| Outcome | Count |
+|---|---|
+| Machine-readable list, with verified findings | **1** (Retool) |
+| Machine-readable list, no findings — generator correctly refused | 1 (Secureframe) |
+| Page exists but renders client-side | 4 (PostHog, WorkOS, Vanta, Ramp) |
+| No subprocessor page found at all | 6 |
+
+**Two things follow.**
+
+*For the outreach:* a 1-in-12 hit rate cannot power 50 personalised emails — that is 600
+companies to screen. Hence the fallback mode, which leads with vendors nearly everyone
+uses. When a company publishes a page we cannot read, the fallback opens with that fact
+instead, which is both personal and true: *"your trust page renders client-side, so if
+an auditor asks what it said six months ago, there is no way to get that."*
+
+*For the product:* see the trust-portal risk in [`PRODUCT.md §11`](PRODUCT.md). Ten of
+twelve prospects publish nothing a diffing tool can read. That is a bigger constraint on
+this business than anything in the code.
+
+One useful reframe: publishing a parseable subprocessor list is itself the qualifier.
+The companies that do are the ones already feeling the problem. The 1-in-12 rate is not
+the tool failing to find prospects — it is the tool telling you the market is smaller
+and better-defined than the plan assumed.
+
 ### The email
 
 Send it one at a time, personalized with **their own vendors**. The diff is the demo —
