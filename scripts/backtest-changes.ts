@@ -53,6 +53,19 @@ interface Change {
   to: string;
   summary: string;
   confidence: 'high' | 'low';
+  /** Which detection path produced it — they are not equally trustworthy. */
+  channel: 'entity' | 'clause' | 'text';
+}
+
+/**
+ * Entity events are named facts ("added Snowflake Inc."). Text events are
+ * "+140 characters", which is real but unactionable and fires on any edit. Counting
+ * them together would inflate the headline rate with noise, so they are reported apart.
+ */
+function channelOf(summary: string): Change['channel'] {
+  if (/Added \d+ subprocessor|Removed \d+ subprocessor|Jurisdiction changed|purpose changed|no longer lists any entities|Now listing/.test(summary)) return 'entity';
+  if (/Page text changed/.test(summary)) return 'text';
+  return 'clause';
 }
 
 /**
@@ -134,7 +147,7 @@ async function backtest(vendor: { slug: string; url: string }): Promise<{
       // Extraction regressions are an artifact of archived pages, not vendor changes.
       const isArtifact = /no longer lists any entities|Now listing|structure disappeared/.test(verdict.summary);
       if (verdict.material && !isArtifact) {
-        changes.push({ slug: vendor.slug, from: previousStamp.slice(0, 8), to: ts.slice(0, 8), summary: verdict.summary, confidence: verdict.confidence });
+        changes.push({ slug: vendor.slug, from: previousStamp.slice(0, 8), to: ts.slice(0, 8), summary: verdict.summary, confidence: verdict.confidence, channel: channelOf(verdict.summary) });
       }
     }
     previous = current;
@@ -173,28 +186,34 @@ process.stdout.write('\n\n');
 
 const withData = results.filter((r) => r.snapshots >= 2);
 const allChanges = results.flatMap((r) => r.changes);
+const byChannel = (c: Change['channel']) => allChanges.filter((x) => x.channel === c).length;
 const totalVendorMonths = withData.reduce((sum, r) => sum + r.spanDays / 30.44, 0);
-const changesPerVendorYear = totalVendorMonths ? (allChanges.length / totalVendorMonths) * 12 : 0;
+const years = totalVendorMonths / 12;
+const changesPerVendorYear = years ? byChannel('entity') / years : 0;
 
 for (const r of results.sort((a, b) => b.changes.length - a.changes.length)) {
   const name = vendorBySlug(r.slug)?.name ?? r.slug;
   console.log(
     r.snapshots < 2
       ? `  no data   ${name.padEnd(22)} (${r.snapshots} usable snapshots)`
-      : `  ${String(r.changes.length).padStart(2)} change${r.changes.length === 1 ? ' ' : 's'} ${name.padEnd(22)} ${r.snapshots} snapshots over ${r.spanDays}d`,
+      : `  ${String(r.changes.filter((c) => c.channel === 'entity').length).padStart(2)} entity ${String(r.changes.filter((c) => c.channel !== 'entity').length).padStart(2)} other  ${name.padEnd(22)} ${r.snapshots} snapshots over ${r.spanDays}d`,
   );
 }
 
 console.log(`
 ─────────────────────────────────────────────
 Vendors with usable history : ${withData.length} of ${results.length}
-Material changes detected   : ${allChanges.length}
-Observed vendor-years       : ${(totalVendorMonths / 12).toFixed(1)}
-CHANGES PER VENDOR PER YEAR : ${changesPerVendorYear.toFixed(2)}
+Observed vendor-years       : ${years.toFixed(1)}
+
+Entity-level events         : ${byChannel('entity')}   (named, actionable)
+Clause-path events          : ${byChannel('clause')}   (should be 0 for subprocessor pages)
+Text-only events            : ${byChannel('text')}   (vague; digest, not a page)
+
+ENTITY CHANGES / VENDOR / YR : ${changesPerVendorYear.toFixed(2)}
 ─────────────────────────────────────────────`);
 
 writeFileSync(
   new URL('./backtest-results.json', import.meta.url),
-  JSON.stringify({ changesPerVendorYear, totalChanges: allChanges.length, results }, null, 2),
+  JSON.stringify({ changesPerVendorYear, entity: byChannel('entity'), clause: byChannel('clause'), text: byChannel('text'), vendorYears: years, results }, null, 2),
 );
 console.log('\nWrote scripts/backtest-results.json');

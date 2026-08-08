@@ -17,37 +17,55 @@ against history: 12 months of Internet Archive captures for each of the 31 resol
 vendors, with consecutive pairs fed through the production materiality engine
 (`scripts/backtest-changes.ts`). Same code path that would send a customer an alert.
 
-### Result: roughly 2–3 material changes per vendor per year
+### Result: 2.17 actionable changes per vendor per year
 
 | | |
 |---|---|
 | Vendors with usable Archive history | 26 of 31 |
 | Observed vendor-years | 18.9 |
-| Changes detected (all) | 56 → **2.96 / vendor / year** |
-| Changes detected (entity-level only) | 41 → **2.17 / vendor / year** |
+| **Entity-level events** (named, actionable) | **41 → 2.17 / vendor / year** |
+| Clause-path events | 0 |
+| Text-only events (vague; digest, never a page) | 8 |
 
-Both figures are reported because the difference is a known weakness, not a rounding
-choice. 15 of the 56 came through the *clause* path on pages where entity extraction
-returned nothing, and they look like this:
+This clears the `> 2` band in the table below, which was written down before the data
+came in: **alerting leads the pitch.** A 25-vendor Team customer sees roughly four to
+five actionable alerts a month.
+
+Only **entity-level** events count toward the headline. Those are named facts — *"added
+Snowflake Inc. (data warehousing, US)"* — that a reviewer can act on in forty seconds.
+The 8 text-only events are real page edits the extractor could not resolve into named
+entities; they are worth logging and worth a digest line, but nobody would pay to
+receive *"+140 characters"*, so counting them would inflate the number with noise.
+
+#### An earlier version of this figure was wrong
+
+The first run reported 2.96, with 15 additional changes arriving through the clause
+path. Inspecting them rather than the summary statistic showed they were fabricated:
 
 ```
 airtable: "Entity" was added (+49 other clauses changed)
+twilio:   "Supplier Data Protection Addendum" was added   ← in 5 consecutive revisions
 ```
 
-That is a subprocessor table being parsed as a 49-clause document, not a vendor change.
-All 15 come from five vendors (Airtable 6, Twilio 5, Amplitude 2, Sentry 1, Braze 1).
-**2.17 is the defensible number**; 2.96 is the ceiling.
+A subprocessor table was being parsed as a legal document, and a nav link as a clause.
+Both are fixed (commit `50baac0`), and the re-run reports **0 clause-path events**.
+Notably the 15 phantom events did not reappear as 8 text events one-for-one — Twilio's
+underlying page had only changed 3 times, and Sentry's not at all. The old path was
+inventing changes, not merely mislabelling them.
 
-Either way this clears the top band of the table below: **alerting leads.** A 25-vendor
-Team customer sees roughly four to six alerts a month.
+**2.96 should not be quoted.** It was 41 real events plus 15 that never happened.
 
 ### The distribution matters more than the mean
 
 It is not a uniform 2–3 per vendor. Of the 26 vendors with history:
 
-- **5 vendors** produced 5+ changes each (Google Cloud, Airtable, Figma, GitHub, Twilio)
+- **3 vendors** produced 6 changes each: Google Cloud, Figma, GitHub
 - **median vendor** produced **1**
-- **3 vendors** produced none at all in a full year
+- **6 of 26** produced no actionable change at all in a full year
+
+Airtable and Twilio were in the top group before the fix and produce **no actionable
+signal at all** — a reminder that the pre-fix leaderboard would have pointed customers
+at exactly the wrong vendors.
 
 Google Cloud alone changed six times, adding IBM, NTT DATA, Uber Technologies, and
 seven Eviden/Bull entities across the year. Anyone running GCP under a DPA was
@@ -66,7 +84,6 @@ change most — surfacing that during onboarding is now a priority, not a nicety
 | 37 | Subprocessor added |
 | 2 | Subprocessor removed |
 | 2 | Jurisdiction moved |
-| 15 | Clause-path artifacts (see above) |
 
 The dominant event is exactly the one the product is named for.
 
@@ -197,8 +214,9 @@ vendors publish a monitorable page. Half of any vendor list resists monitoring, 
 constrains what can honestly be promised.
 
 **Established as of the backtest:** vendor pages change often enough to alert on —
-roughly 2–3 material changes per vendor per year, concentrated in a handful of
-fast-moving vendors. The signal is real.
+**2.17 actionable changes per vendor per year**, measured through the corrected engine
+across 18.9 vendor-years, and heavily concentrated in a handful of fast-moving vendors.
+The signal is real.
 
 **Not established:** that anyone will pay for it. Step 3 has not been run. Everything in
 this repository is a well-built answer to a question that has not been asked of a single

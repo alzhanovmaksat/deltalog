@@ -148,9 +148,10 @@ product into a job.
 
 Step 1–2 are done and recorded in [VALIDATION.md](VALIDATION.md): a 12-month backtest
 against Internet Archive captures, run through the production materiality engine, found
-**~2.2–3.0 material changes per vendor per year** across 26 vendors and 18.9
-vendor-years. Enough to alert on — heavily concentrated, with a median vendor changing
-once and Google Cloud changing six times.
+**2.17 actionable changes per vendor per year** across 26 vendors and 18.9 vendor-years.
+Enough to alert on — heavily concentrated, with a median vendor changing once and Google
+Cloud, GitHub, and Figma each changing six times. The run also found a false-positive
+bug in the clause path, since fixed.
 
 Step 3 — asking ~50 real buyers whether they would pay — has **not** been run. That is
 the open question.
