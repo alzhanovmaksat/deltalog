@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { extractClauses } from './clauses.ts';
+import { buildSnapshot } from './snapshot.ts';
 import { isMaterialChange } from './materiality.ts';
 import type { Entity, MaterialityContext, PageKind, PageSnapshot } from './materiality.ts';
 
@@ -115,4 +116,27 @@ test('repeated false positives downgrade urgency but never materiality', () => {
   const v = isMaterialChange(snap(base), snap(after), ctx('subprocessor_list', { falsePositivesReported: 4 }));
   assert.equal(v.material, true); // still logged
   assert.equal(v.confidence, 'low'); // but stops paging
+});
+
+test('an unparseable subprocessor page falls to text, never to invented clauses', () => {
+  // Regression from the backtest: a subprocessor table parsed as a legal document
+  // reported phantom clause additions on five consecutive revisions.
+  const table = '<table><tr><th>Entity</th></tr><tr><td>Acme</td></tr></table>';
+  const before = buildSnapshot(`<h1>Subprocessors</h1>${table}`, 'subprocessor_list');
+  const after = buildSnapshot(`<h1>Subprocessors</h1>${table}<p>Updated today.</p>`, 'subprocessor_list');
+
+  assert.deepEqual(before.clauses, [], 'no clause tree on a non-DPA page');
+  const v = isMaterialChange(before, after, ctx('subprocessor_list'));
+  assert.match(v.summary, /Page text changed/, 'vague but honest');
+  assert.doesNotMatch(v.summary, /clause|was added/i);
+});
+
+test('a DPA still gets full clause treatment', () => {
+  const before = buildSnapshot('<p>7.2 Breach Notification</p><p>The Processor shall notify the Controller within 72 hours of becoming aware of a breach.</p>', 'dpa');
+  const after = buildSnapshot('<p>7.2 Breach Notification</p><p>The Processor shall notify the Controller within 5 business days of becoming aware of a breach.</p>', 'dpa');
+
+  assert.ok(before.clauses!.length > 0);
+  const v = isMaterialChange(before, after, ctx('dpa'));
+  assert.match(v.summary, /72 hours → 5 business days/);
+  assert.equal(v.confidence, 'high');
 });

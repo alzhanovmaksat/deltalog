@@ -117,3 +117,47 @@ test('summary leads with a high-severity clause and names it', () => {
 test('an unchanged document summarizes to nothing', () => {
   assert.equal(summarizeClauseChanges(diffClauses(extractClauses(V1), extractClauses(V1))), null);
 });
+
+// ── tabular content is not a clause tree ────────────────────────────────────────
+// Regression: backtesting a year of live pages showed subprocessor tables surviving
+// htmlToText as one short line per cell, each parsing as an unnumbered heading. The
+// differ then reported '"Entity" was added (+49 other clauses changed)' every revision.
+
+const TABLE_AS_TEXT = `Airtable Subprocessors | Airtable
+Airtable Subprocessors
+Third Parties
+Entity
+Description/Purpose
+Countries
+Amazon Web Services
+Cloud hosting
+United States
+Snowflake Inc.
+Data warehousing
+United States
+Twilio Inc.
+Communications
+United States`;
+
+test('a shredded table does not become a clause tree', () => {
+  assert.deepEqual(extractClauses(TABLE_AS_TEXT), []);
+});
+
+test('a table that changes produces no clause diff at all', () => {
+  const after = TABLE_AS_TEXT.replace('Twilio Inc.', 'OpenAI, L.L.C.');
+  assert.deepEqual(diffClauses(extractClauses(TABLE_AS_TEXT), extractClauses(after)), []);
+  assert.equal(summarizeClauseChanges(diffClauses(extractClauses(TABLE_AS_TEXT), extractClauses(after))), null);
+});
+
+test('real prose with mostly-bodied clauses still parses', () => {
+  const clauses = extractClauses(V1);
+  assert.ok(clauses.length >= 5, 'the DPA fixture is above the size threshold');
+  const bodied = clauses.filter((c) => c.text.trim()).length;
+  assert.ok(bodied / clauses.length >= 0.5, 'and is mostly bodies, so it survives');
+});
+
+test('a short heading-only fragment is still trusted (too small to judge)', () => {
+  // Under the threshold we take it at face value rather than guessing.
+  const clauses = extractClauses('Scope\nTerm\nFees');
+  assert.ok(clauses.length > 0);
+});

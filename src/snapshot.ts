@@ -21,10 +21,19 @@ export function buildSnapshot(html: string, kind: PageKind, fetchedAt = new Date
   const normalizedText = htmlToText(html);
   const entities = extractEntities(html);
 
-  // Always parse clauses on a DPA. Elsewhere, only bother when the entity path came up
-  // empty — a page that yielded a clean subprocessor table has nothing to gain from a
-  // clause tree, and running both doubles the work on every check forever.
-  const clauses = kind === 'dpa' || entities.length === 0 ? extractClauses(normalizedText) : [];
+  // Clauses are parsed for DPAs only.
+  //
+  // This used to also run whenever entity extraction came up empty, on the theory that
+  // some structure beats none. Backtesting a year of real pages disproved that: on a
+  // subprocessor page we failed to parse, a clause tree is a category error — the page
+  // is a table of vendors, not a legal document — and it produced confident nonsense.
+  // Twilio reported the same nav link as a newly added clause in five consecutive
+  // revisions, because site chrome built from <div>s survives stripChrome and matches
+  // unstably from one capture to the next.
+  //
+  // The honest fallback for an unparseable subprocessor page is the text path: vague,
+  // but it never invents a clause that was never there.
+  const clauses = kind === 'dpa' ? extractClauses(normalizedText) : [];
 
   return { html, normalizedText, entities, clauses, fetchedAt: fetchedAt.toISOString() };
 }

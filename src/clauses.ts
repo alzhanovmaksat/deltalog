@@ -135,6 +135,32 @@ function splitHeadingAndBody(id: string, rest: string): { id: string; heading?: 
   return { id, rest: r };
 }
 
+/**
+ * Below this many clauses, a document is too small to judge and is taken at face value.
+ * At or above it, a clause tree whose clauses mostly have no body is not prose.
+ */
+const PROSE_MIN_CLAUSES = 5;
+const PROSE_MIN_BODIED_SHARE = 0.5;
+
+/**
+ * Rejects "clause trees" that are really tables.
+ *
+ * Found by backtesting a year of real pages: a subprocessor table survives
+ * `htmlToText` as one short line per cell, and every one of those lines looks like an
+ * unnumbered heading — short, capitalised, no terminal punctuation. Airtable's page
+ * produced 90 clauses, 69 of them with no body whatsoever, and the differ dutifully
+ * reported `"Entity" was added (+49 other clauses changed)` on every revision.
+ *
+ * The tell is structural and cheap: real legal prose is clauses *with bodies*. A run of
+ * headings attached to nothing is a shredded table, a nav menu, or a list of links —
+ * none of which can be meaningfully diffed as a document.
+ */
+function looksLikeProse(clauses: Clause[]): boolean {
+  if (clauses.length < PROSE_MIN_CLAUSES) return true;
+  const bodied = clauses.filter((c) => c.text.trim().length > 0).length;
+  return bodied / clauses.length >= PROSE_MIN_BODIED_SHARE;
+}
+
 export function extractClauses(rawText: string): Clause[] {
   const lines = prepare(rawText)
     .split('\n')
@@ -160,7 +186,12 @@ export function extractClauses(rawText: string): Clause[] {
     }
   }
   flush();
-  return clauses;
+
+  // Returning [] here is deliberate and safe: an empty clause tree on both sides is a
+  // "no clause data" case that `isMaterialChange` handles by falling through to the
+  // text path, which is vague but honest. Emitting fabricated clauses instead sends
+  // confident nonsense, which is strictly worse.
+  return looksLikeProse(clauses) ? clauses : [];
 }
 
 // ── matching ────────────────────────────────────────────────────────────────────
