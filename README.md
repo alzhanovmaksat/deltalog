@@ -144,9 +144,20 @@ idempotent. That ~8% bot-block rate is the measured version of the risk in
 [`PRODUCT.md §11`](PRODUCT.md) — the one that could turn this from a low-maintenance
 product into a job.
 
+## Validation
+
+Step 1–2 are done and recorded in [VALIDATION.md](VALIDATION.md): a 12-month backtest
+against Internet Archive captures, run through the production materiality engine, found
+**~2.2–3.0 material changes per vendor per year** across 26 vendors and 18.9
+vendor-years. Enough to alert on — heavily concentrated, with a median vendor changing
+once and Google Cloud changing six times.
+
+Step 3 — asking ~50 real buyers whether they would pay — has **not** been run. That is
+the open question.
+
 ## Not built
 
-- Validation with real buyers (the actual next step)
+- Step 3 of validation: talking to real buyers (the actual next step)
 - JS-rendered page support beyond a plain fetch
 - SSO, questionnaire automation, AI risk scoring — deliberately out of scope; each one
   converts a passive product into a job

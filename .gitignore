@@ -9,3 +9,4 @@ node_modules/
 scripts/seed-directory.report.json
 scripts/discovered-urls.json
 scripts/new-urls.json
+scripts/backtest-results.json
