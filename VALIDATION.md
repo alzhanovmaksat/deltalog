@@ -197,6 +197,20 @@ Fifty genuinely personalised emails is **4–6 hours**, because each needs real 
 about that recipient's own vendors. Ten a day for a week. Anything faster is a mail
 merge, and a mail merge will not answer the question you are asking.
 
+### Generate the findings first
+
+```bash
+node scripts/gap-report.ts acme.com          # or the trust-page URL directly
+```
+
+Reads the company's own published subprocessor list, matches it against the vendors we
+monitor, and prints a subject line and ready-to-paste bullets built only from verified
+findings. If none of their vendors has a confirmed change it says so and tells you to
+pick another prospect — it will not manufacture one. It also lists which of their
+vendors nobody can monitor, which is usually the more interesting conversation.
+
+Six minutes a head becomes about thirty seconds.
+
 ### The email
 
 Send it one at a time, personalized with **their own vendors**. The diff is the demo —

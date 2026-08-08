@@ -154,7 +154,8 @@ Cloud, GitHub, and Figma each changing six times. The run also found a false-pos
 bug in the clause path, since fixed.
 
 Step 3 — asking ~50 real buyers whether they would pay — has **not** been run. That is
-the open question.
+the open question. `scripts/gap-report.ts` generates the per-prospect findings that
+outreach needs, from verified data only.
 
 ## Not built
 
