@@ -166,3 +166,29 @@ test('aliases still resolve inside a list', () => {
   const after = [{ name: 'Acme', jurisdiction: 'Germany, United States' }];
   assert.deepEqual(diffEntities(before, after).moved, []);
 });
+
+test('dropping the commas from a jurisdiction list is not a change', () => {
+  // Datadog rewrote "United States, Germany" as "United States Germany".
+  const before = [{ name: 'Google LLC', jurisdiction: 'United States, Germany' }];
+  const after = [{ name: 'Google LLC', jurisdiction: 'United States Germany' }];
+  assert.deepEqual(diffEntities(before, after).moved, []);
+});
+
+test('a real addition inside a comma-less list is still caught', () => {
+  // The other half of that same Datadog revision, which genuinely did change.
+  const before = [{ name: 'AWS', jurisdiction: 'United States, Italy, Japan' }];
+  const after = [{ name: 'AWS', jurisdiction: 'United States Australia Italy Japan United Kingdom' }];
+  assert.equal(diffEntities(before, after).moved.length, 1);
+});
+
+test('distinct countries sharing a word stay distinct', () => {
+  const before = [{ name: 'Acme', jurisdiction: 'United States' }];
+  const after = [{ name: 'Acme', jurisdiction: 'United Kingdom' }];
+  assert.equal(diffEntities(before, after).moved.length, 1);
+});
+
+test('abbreviation and full name are the same jurisdiction, comma-less', () => {
+  const before = [{ name: 'Acme', jurisdiction: 'USA Germany' }];
+  const after = [{ name: 'Acme', jurisdiction: 'United States, Deutschland' }];
+  assert.deepEqual(diffEntities(before, after).moved, []);
+});

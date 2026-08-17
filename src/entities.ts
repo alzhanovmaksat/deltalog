@@ -56,31 +56,57 @@ export function normalizeEntityName(raw: string): string {
   return s.replace(/[.,]/g, '').trim();
 }
 
-/** Vendors write the same jurisdiction a dozen ways; only real moves should count. */
+/**
+ * Vendors write the same jurisdiction a dozen ways. Keys are punctuation-free because
+ * the normaliser strips punctuation before matching, and they are applied longest-first
+ * so "united states of america" resolves before "united states".
+ */
 const JURISDICTION_ALIASES: Record<string, string> = {
-  usa: 'us', 'u.s.': 'us', 'u.s.a.': 'us', 'united states': 'us', 'united states of america': 'us',
-  'u.k.': 'uk', 'united kingdom': 'uk', 'great britain': 'uk', gb: 'uk',
-  'european union': 'eu', eea: 'eu', deutschland: 'de', germany: 'de', ireland: 'ie',
+  'united states of america': 'us',
+  'united states': 'us',
+  'great britain': 'uk',
+  'united kingdom': 'uk',
+  'european union': 'eu',
+  'u s a': 'us',
+  usa: 'us',
+  'u s': 'us',
+  'u k': 'uk',
+  gb: 'uk',
+  eea: 'eu',
+  deutschland: 'de',
+  germany: 'de',
+  ireland: 'ie',
 };
 
+const ALIAS_PATTERNS = Object.entries(JURISDICTION_ALIASES)
+  .sort((a, b) => b[0].length - a[0].length)
+  .map(([from, to]) => [new RegExp(`\\b${from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g'), to] as const);
+
 /**
- * Jurisdiction cells are frequently a *list* — "United States, Germany, Iceland" — and
- * vendors reorder them whenever the page is regenerated. Comparing the raw string
- * reported GitHub as moving Fireworks AI between three countries that had not changed.
- * Normalising as a set makes order irrelevant, which is what the compliance question
- * actually cares about: which jurisdictions, not in what order.
+ * Jurisdiction cells are lists, and vendors rewrite them constantly without changing
+ * what they mean. Three real examples from live pages, all of which used to read as
+ * moves:
+ *
+ *   "United States, Iceland, Germany"  →  "United States, Germany, Iceland"   reordered
+ *   "United States, Germany"           →  "United States Germany"             commas dropped
+ *   "USA"                              →  "United States"                     renamed
+ *
+ * Comparing a *set of words* handles all three, which separator-splitting could not:
+ * without commas there is nothing to split on, and short of a table of every country
+ * name there is no way to find the boundary. Aliases are applied to the whole string
+ * first so multi-word names collapse to one token before the split.
+ *
+ * The compliance question is which jurisdictions, not how they were typed.
  */
 export function normalizeJurisdiction(raw?: string): string {
-  const one = (part: string) => {
-    const s = part.toLowerCase().replace(/\s+/g, ' ').trim();
-    return JURISDICTION_ALIASES[s] ?? s.replace(/\./g, '');
-  };
-  return (raw ?? '')
-    .split(/[,;/]|\band\b/)
-    .map(one)
-    .filter(Boolean)
-    .sort()
-    .join(', ');
+  let s = (raw ?? '')
+    .toLowerCase()
+    .replace(/[.,;/()&]/g, ' ')
+    .replace(/\band\b/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  for (const [pattern, replacement] of ALIAS_PATTERNS) s = s.replace(pattern, replacement);
+  return [...new Set(s.split(' ').filter(Boolean))].sort().join(' ');
 }
 
 export function normalizePurpose(raw?: string): string {
