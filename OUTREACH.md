@@ -21,8 +21,9 @@ companies scanned, only 7 published a list a tool could read.
 whole dataset are both theirs.
 
 > Six of the vendors on your subprocessor list publish nothing anyone can track —
-> AWS, Okta, Salesforce, SendGrid, Segment, Zendesk. Meanwhile GitHub and Google Cloud,
-> also on your list, each changed theirs six times in the last twelve months.
+> AWS, Okta, Salesforce, SendGrid, Segment, Zendesk. Meanwhile GitHub, also on your
+> list, changed its own subprocessor list six times in the last twelve months, and
+> Google Cloud four.
 
 Find: Head of Security / Platform / Infrastructure.
 
@@ -110,11 +111,12 @@ second is the clearest signal a company is not feeling this yet.
 
 Full email template and the follow-up are in [VALIDATION.md](VALIDATION.md).
 
-## One thing to avoid pasting
+## Provenance
 
-The Datadog finding in `findings.json` currently contains a jurisdiction fragment —
-`Google LLC (United States, Germany → United States Germany)` — that is a comma being
-removed, not a jurisdiction moving. The set-based comparison does not yet normalise a
-list written without separators. The AWS half of that same finding is real. Use the
-PlanetScale and Knock hooks above, which are clean, and do not paste raw Datadog
-jurisdiction text until this is fixed.
+Every hook was regenerated after the jurisdiction fix (commit `dc18629`) and checked:
+**zero spurious jurisdiction fragments remain** across all 37 findings. The earlier
+warning about not pasting Datadog jurisdiction text no longer applies — that fragment
+was a comma being removed, and it is gone.
+
+Findings come from 12 months of Internet Archive captures run through the production
+engine. Anything here can be checked at web.archive.org, and should be before it is sent.

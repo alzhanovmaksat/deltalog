@@ -1,44 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-08-08T22:44:19.162Z",
+    "generatedAt": "2026-08-17T23:36:25.603Z",
     "source": "12 months of Internet Archive captures, verified through the DeltaLog materiality engine",
-    "vendorYears": 16.8,
-    "ratePerVendorYear": 2.38,
-    "note": "Entity-level events only. Two runs of the same method gave 2.17 and 2.38 changes/vendor/year; the denominator moves with Internet Archive coverage, which varies run to run. Treat the rate as ~2.2-2.4, not a point estimate."
+    "vendorYears": 18,
+    "ratePerVendorYear": 2.06,
+    "note": "Entity-level events only. Three runs of the same method gave 2.17, 2.38 and 2.06 changes/vendor/year; the denominator moves with Internet Archive coverage. Treat the rate as roughly 2, not a point estimate."
   },
   "findings": {
-    "google-cloud": [
-      {
-        "from": "20250808",
-        "to": "20251006",
-        "summary": "Added 1 subprocessor: Virtusa SuperholdCo Inc"
-      },
-      {
-        "from": "20251106",
-        "to": "20260112",
-        "summary": "Added 2 subprocessors: Innodata Inc, Uber Technologies"
-      },
-      {
-        "from": "20260112",
-        "to": "20260303",
-        "summary": "Added 7 subprocessors: Eviden USA, Inc., BULL LTDA – LE 960833, Eviden Canada, Inc. and 4 more"
-      },
-      {
-        "from": "20260303",
-        "to": "20260501",
-        "summary": "Added 4 subprocessors: Bull Advanced Computing Canada Inc., Bull GmbH, Bull Nederland B.V. and 1 more"
-      },
-      {
-        "from": "20260501",
-        "to": "20260601",
-        "summary": "Added 1 subprocessor: Google Czech Republic, s.r.o."
-      },
-      {
-        "from": "20260601",
-        "to": "20260801",
-        "summary": "Added 3 subprocessors: International Business Machines Corporation, NTT DATA Americas, Inc., Quantiphi Inc (USA)"
-      }
-    ],
     "figma": [
       {
         "from": "20250818",
@@ -73,7 +41,7 @@
     ],
     "github": [
       {
-        "from": "20250816",
+        "from": "20250817",
         "to": "20251010",
         "summary": "Added 2 subprocessors: Fireworks AI, xAI"
       },
@@ -103,6 +71,28 @@
         "summary": "Added 1 subprocessor: Cerebras Systems Inc. Jurisdiction changed: Microsoft (Azure) (United States, Canada → United States, Canada, Chile, Mexico)"
       }
     ],
+    "google-cloud": [
+      {
+        "from": "20251106",
+        "to": "20260112",
+        "summary": "Added 2 subprocessors: Innodata Inc, Uber Technologies"
+      },
+      {
+        "from": "20260112",
+        "to": "20260501",
+        "summary": "Added 6 subprocessors: BULL LTDA – LE 960833, Bull Advanced Computing Canada Inc., Bull GmbH and 3 more"
+      },
+      {
+        "from": "20260501",
+        "to": "20260601",
+        "summary": "Added 1 subprocessor: Google Czech Republic, s.r.o."
+      },
+      {
+        "from": "20260601",
+        "to": "20260801",
+        "summary": "Added 3 subprocessors: International Business Machines Corporation, NTT DATA Americas, Inc., Quantiphi Inc (USA)"
+      }
+    ],
     "pagerduty": [
       {
         "from": "20250912",
@@ -118,6 +108,23 @@
         "from": "20260131",
         "to": "20260305",
         "summary": "Added 5 subprocessors: BrowserStack Inc., KTSL Limited, Crowdstrike Inc. and 2 more"
+      }
+    ],
+    "monday": [
+      {
+        "from": "20251014",
+        "to": "20251215",
+        "summary": "Added 5 subprocessors: Name, Anthropic PBC, dbt Labs, Inc. and 2 more. Jurisdiction changed: Microsoft Corp. (U S → Data is processed temporarily and deleted)"
+      },
+      {
+        "from": "20260117",
+        "to": "20260521",
+        "summary": "Added 4 subprocessors: WorkCanvas, WorkAssests, Fortinet, Inc., Lakera AI AG and 1 more"
+      },
+      {
+        "from": "20260521",
+        "to": "20260812",
+        "summary": "Added 2 subprocessors: EON.io Ltd., Nebius Inc."
       }
     ],
     "intercom": [
@@ -146,48 +153,24 @@
       {
         "from": "20260314",
         "to": "20260513",
-        "summary": "Added 4 subprocessors: Hyperdoc Inc., Reversing Labs International GmbH, Datadog Arabia and 1 more. Jurisdiction changed: Amazon Web Services, Inc. (United States, Italy, Japan → United States Australia Italy Japan United Kingdom), Google LLC (United States, Germany → United States Germany) and 2 more"
+        "summary": "Added 4 subprocessors: Hyperdoc Inc., Reversing Labs International GmbH, Datadog Arabia and 1 more. Jurisdiction changed: Amazon Web Services, Inc. (United States, Italy, Japan → United States Australia Italy Japan United Kingdom)"
       }
     ],
     "asana": [
       {
-        "from": "20251102",
+        "from": "20251001",
         "to": "20251213",
         "summary": "Added 1 subprocessor: Intercom, Inc"
       },
       {
-        "from": "20260522",
+        "from": "20260403",
         "to": "20260714",
         "summary": "Added 2 subprocessors: Google, LLC (Google Cloud), Google, LLC (Google Vertex)"
       }
     ],
-    "monday": [
-      {
-        "from": "20251014",
-        "to": "20251215",
-        "summary": "Added 5 subprocessors: Name, Anthropic PBC, dbt Labs, Inc. and 2 more. Jurisdiction changed: Microsoft Corp. (U S → Data is processed temporarily and deleted)"
-      },
-      {
-        "from": "20260117",
-        "to": "20260521",
-        "summary": "Added 4 subprocessors: WorkCanvas, WorkAssests, Fortinet, Inc., Lakera AI AG and 1 more"
-      }
-    ],
-    "zapier": [
-      {
-        "from": "20250828",
-        "to": "20251022",
-        "summary": "Added 7 subprocessors: Amazon Web Services (AWS), Bright Data, Google and 4 more. Jurisdiction changed: Zapier Australia Pty Ltd. (Australia, with a branch in New Zealand → Australia, with a branch in New Zealand (Zapier Australia Pty Ltd.)), Zapier Automation Ireland Ltd. (Ireland, with a branch in Spain → Ireland, with a branch in Spain (Zapier Automation Ireland Limited Sucursal En España))"
-      },
-      {
-        "from": "20260215",
-        "to": "20260611",
-        "summary": "Added 3 subprocessors: Fireworks AI, Grafana Labs (Raintank, Inc.), Knock"
-      }
-    ],
     "digitalocean": [
       {
-        "from": "20251120",
+        "from": "20251012",
         "to": "20260121",
         "summary": "Added 24 subprocessors: BlogVault, Immunify360, Telesign and 21 more. Jurisdiction changed: Amazon Web Services (Global → USA (WA)), Cloudflare (Global → USA (CA)) and 3 more"
       }
@@ -206,20 +189,6 @@
         "summary": "Added 5 subprocessors: Google Resources, AWS Resources, MongoDB Atlas Resources and 2 more"
       }
     ],
-    "new-relic": [
-      {
-        "from": "20250813",
-        "to": "20251214",
-        "summary": "Removed 3 subprocessors: Confluent, IBM, SearchUnify (Grazitti Interactive)"
-      }
-    ],
-    "grafana": [
-      {
-        "from": "20250815",
-        "to": "20251210",
-        "summary": "Added 1 subprocessor: AlphaAI Technologies (Tavily)"
-      }
-    ],
     "stripe": [
       {
         "from": "20251108",
@@ -234,11 +203,25 @@
         "summary": "Added 16 subprocessors: Applicable Cloud Products DX, Applicable Cloud Products Forge, Google LLC and 13 more. Jurisdiction changed: Amazon Web Services, Inc. (Location of Processing In accordance with Atlassian’s Data Residency offering as outlined in Data Residency: Manage Where Your Data is Hosted as well as Understand data residency , and depending on the customer choice, available locations encompass: Global, EEA (Sweden, Ireland and Germany), Switzerland, UK, Canada, Australia, Singapore, South Korea, USA, India, Japan → Location of Processing EEA (Sweden, Ireland and Germany), Switzerland, UK, Canada, Australia, Singapore, South Korea, USA, India, Japan, Singapore If you’ve enabled Atlassian’s Data Residency feature, certain (in-scope) data is hosted in your chosen region. For details on supported regions and how Data Residency works, see Data Residency: Manage Where Your Data is Hosted and Understand data residency .), Google Vertex AI (Location of Processing USA → Location of Processing USA, EEA (Belgium, Netherlands, Finland), Singapore, Taiwan) and 6 more"
       }
     ],
+    "zapier": [
+      {
+        "from": "20250828",
+        "to": "20251022",
+        "summary": "Added 7 subprocessors: Amazon Web Services (AWS), Bright Data, Google and 4 more. Jurisdiction changed: Zapier Australia Pty Ltd. (Australia, with a branch in New Zealand → Australia, with a branch in New Zealand (Zapier Australia Pty Ltd.)), Zapier Automation Ireland Ltd. (Ireland, with a branch in Spain → Ireland, with a branch in Spain (Zapier Automation Ireland Limited Sucursal En España))"
+      }
+    ],
     "databricks": [
       {
         "from": "20250909",
         "to": "20260109",
         "summary": "Added 4 subprocessors: OpenAI, L.L.C., Databricks Arabia Ltd, Databricks Denmark Lps and 1 more"
+      }
+    ],
+    "mixpanel": [
+      {
+        "from": "20260119",
+        "to": "20260413",
+        "summary": "Added 6 subprocessors: Anthropic, Inc., HubSpot, Inc., Langfuse GmbH and 3 more. Jurisdiction changed: Mixpanel International, Inc. (United Kingdom Spain Singapore India → United Kingdom Spain Singapore India Israel), Snowflake Inc. (Location of Customer’s Snowflake instance, as indicated by Customer → Location of Customer's Snowflake instance, as indicated by Customer)"
       }
     ]
   }
