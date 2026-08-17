@@ -309,6 +309,44 @@ Ask directly. "Would you find that valuable?" gets a polite yes that means nothi
 | Contact | Company | Sent | Replied | "Keep sending" | Would pay $39 | Notes |
 |---|---|---|---|---|---|---|
 
+### After you send
+
+**Day 0–7: leave it alone.** No follow-ups, no product changes, no features "while you
+wait". The information you need is in other people's inboxes and no amount of code
+changes it. If you get restless, find the next forty people — do not touch the repo.
+
+**Handling replies.** Four kinds, and three of them are useful:
+
+| Reply | What to do |
+|---|---|
+| *"Yes, keep sending"* | Reply immediately with the money question, worded exactly as below. Ask the price, not the sentiment |
+| *"We already track this"* | **The most valuable reply available.** Ask how. A spreadsheet means you have a customer; a tool you have never heard of means you found a competitor for free |
+| *"Not really a problem for us"* | Also valuable. Ask why not. Several people saying *"our DPAs don't require notice"* or *"our auditor never asks"* is a product-killing insight, and finding it now costs nothing |
+| Silence | Tells you nothing on its own. Only the count means anything |
+
+**Day 7: follow up once.** One line to everyone who did not reply — *"following up once
+in case this got buried; even a 'we don't track this' is useful."* Then stop. Never a
+third email.
+
+**Day 10: count, and decide against the thresholds below.**
+
+- **0–1 "keep sending"** → stop. You learned something true for two hours of work.
+- **2+ "keep sending" but nobody would pay $39** → the information is wanted, the
+  product is not. That is a different business — possibly a free newsletter with a paid
+  tier — and it is worth knowing.
+- **2+ "keep sending", 1–2 would pay** → ambiguous. Send the other forty before deciding.
+- **3+ would pay $39** → you have something.
+
+The risk at this step is not misreading the data. It is rewriting the threshold after
+seeing it — *"well, one of them was really enthusiastic."* The number was written down
+before anything was known. Honour it.
+
+**If it works, do not scale.** Take the first three customers by hand: set up their
+watches yourself, email them personally when something changes, ask what is annoying.
+The product runs on free infrastructure, so ten customers cost nothing but attention —
+and their complaints in month one are worth more than the next fifty features you would
+otherwise guess at.
+
 ### Kill criteria — decided in advance, on purpose
 
 Of 50 sent:
