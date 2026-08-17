@@ -268,7 +268,7 @@ to come from one.
 >
 > Hi {name},
 >
-> I've been tracking subprocessor pages for ~30 SaaS vendors for the last year. Some of
+> I pulled twelve months of history for ~30 SaaS vendors' subprocessor pages. Some of
 > the ones on your trust page changed in that time:
 >
 > • **Google Cloud** added Uber Technologies and Innodata as subprocessors in December,
@@ -284,6 +284,12 @@ to come from one.
 > 2. Want me to keep sending them?
 >
 > {your name}
+
+**Say what you actually did.** An earlier draft of this template said *"I've been
+tracking these for the last year"*, which was not true — the history was reconstructed
+from web archives in an afternoon. To a compliance audience, whose job is checking
+claims, a detail like that ending a conversation is a self-inflicted wound. *"I pulled
+twelve months of history"* is equally strong and survives the follow-up question.
 
 **Use only findings you have actually verified.** Every example above came out of the
 backtest and can be checked against the Internet Archive. Swap in the recipient's own

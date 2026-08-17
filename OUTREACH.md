@@ -31,9 +31,11 @@ Find: Head of Security / Platform / Infrastructure.
 19 disclosed vendors, five untrackable, and two are AI providers — the sharpest version
 of the pitch.
 
-> Five of your nineteen listed subprocessors publish nothing anyone can track,
-> including both of your AI providers, OpenAI and Anthropic. If either adds a
-> downstream processor there is no mechanism by which you would hear about it.
+> Five of your nineteen listed subprocessors publish nothing that can be tracked
+> automatically — including both of your AI providers. Anthropic publishes theirs in a
+> trust portal that renders in the browser, so its contents cannot be fetched, diffed,
+> or archived. OpenAI's site returns 403 to automated requests. If either adds a
+> downstream processor, there is no mechanism by which you would hear about it.
 
 Find: co-founder or Head of Engineering (small company — founders answer email).
 
@@ -48,10 +50,10 @@ why it does not matter. Both answers are worth more than a shrug.
 Find: Head of Security or a founder. **Ask them as a peer, not a prospect.**
 
 ### 4. Retool — `retool.com` · internal tools
-> Three of your ten listed subprocessors are AI providers. I could not retrieve a
-> trackable subprocessor list for OpenAI or Anthropic — OpenAI's site blocks automated
-> requests and I found no page for Anthropic at any standard location or in their
-> sitemap.
+> Three of your ten listed subprocessors are AI providers, and neither of the two
+> largest publishes a list anyone can track. Anthropic's is behind a client-rendered
+> trust portal — the page loads, but its contents cannot be fetched, diffed, or
+> archived. OpenAI returns 403 to automated requests entirely.
 
 Find: Security team via `retool.com/trust`.
 
@@ -120,3 +122,9 @@ was a comma being removed, and it is gone.
 
 Findings come from 12 months of Internet Archive captures run through the production
 engine. Anything here can be checked at web.archive.org, and should be before it is sent.
+
+**Re-verified the day before sending.** `anthropic.com/subprocessors` returns 200 and
+redirects to a client-rendered trust portal at `trust.anthropic.com`; an earlier draft
+of the Retool and Knock hooks claimed no page existed, which anyone clicking the link
+would have disproved. OpenAI returns 403 on every candidate path. Both hooks now say
+precisely what is true, which is also the more interesting claim.
